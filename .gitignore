@@ -1,0 +1,15 @@
+# Archivos de usuario
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Visual Studio
+.vs/
+bin/
+obj/
+Debug/
+Release/
+
+# Archivos temporales
+*.log
