@@ -1,12 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Bridgeline.Automation.Domain.entities;
+using Bridgeline.Automation.Domain.Interfaces.Repositories;
 
 namespace Bridgeline.Automation.Application.UseCases.TypeAutomations
 {
-    internal class GetTypeAutomationUseCase
+    public class GetTypeAutomationUseCase
     {
+        private readonly ITypeAutomationRepository _typeAutomationRepository;
+        public GetTypeAutomationUseCase(ITypeAutomationRepository typeAutomationRepository)
+        {
+            _typeAutomationRepository = typeAutomationRepository;
+        }
+        public async Task<TypeAutomation> ExecuteAsync(Guid id)
+        {
+            return await _typeAutomationRepository.GetById(id);
+        }
     }
 }

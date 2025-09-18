@@ -5,11 +5,11 @@ namespace Bridgeline.Automation.Domain.Interfaces.Repositories
 {
     public interface ICompanyAutomationRepository
     {
-        Task<CompanyAutomation> PostCompanyAutomation(CompanyAutomation companyAutomation);
-        Task<CompanyAutomation> PutCompanyAutomation(CompanyAutomation companyAutomation);
-        Task<CompanyAutomation> FindByNameCompanyAutomation(string name);
-        Task<List<CompanyAutomation>> GetCompanyAutomations();
-        Task<CompanyAutomation> GetCompanyAutomation(Guid id);
-        Task<bool> DeleteCompanyAutomation(Guid id);
+        Task<CompanyAutomation> Create (CompanyAutomation companyAutomation);
+        Task<CompanyAutomation> Update (CompanyAutomation companyAutomation);
+        Task<CompanyAutomation> FindByName(string name);
+        Task<List<CompanyAutomation>> GetAll();
+        Task<CompanyAutomation> GetById(Guid id);
+        Task<bool> Delete (Guid id);
     }
 }

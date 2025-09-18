@@ -18,6 +18,7 @@ namespace Bridgeline.Automation.Application.UseCases.ProviderServices
 
             var NewproviderService = new ProviderService
             {
+                Id = Guid.NewGuid(),
                 Name = dto.Name,
                 RequiredCredentials = dto.RequiredCredentials,
                 IsActive = true,

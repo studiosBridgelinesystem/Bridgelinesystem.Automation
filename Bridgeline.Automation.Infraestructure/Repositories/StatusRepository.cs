@@ -14,47 +14,51 @@ namespace Bridgeline.Automation.Infraestructure.Repositories
             _context = context;
         }
 
-        public async Task<Status> PostStatus(Status Status)
+        public async Task<Status> Create (Status Status)
         {
             _context.Statuses.Add(Status);
             await _context.SaveChangesAsync();
             return Status;
         }
 
-        public async Task<Status> PutStatus(Status Status)
+        public async Task<Status> Update (Status Status)
         {
             var data = _context.Statuses.Update(Status);
             await _context.SaveChangesAsync();
             return Status;
         }
 
-        public async Task<Status> FindByNameStatus(string name)
+        public async Task<Status> FindByName (string name)
         {
             return await _context.Statuses.FirstOrDefaultAsync(x => x.Name == name);
         }
 
-        public async Task<List<Status>> GetStatuses()
+        public async Task<IEnumerable<Status>> GetAll()
         {
             return await _context.Statuses
                 .AsNoTracking()
                 .ToListAsync();
         }
 
-        public async Task<Status> GetStatus(Guid id)
+        public async Task<Status> GetById (Guid id)
         {
             return await _context.Statuses
                 .AsNoTracking()
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .FirstOrDefaultAsync(s => s.Id == id && s.IsActive);
         }
 
-        public async Task<bool> DeleteStatus(Guid id)
+        public async Task<bool> Delete (Guid id)
         {
-            var Status = await _context.Statuses.FindAsync(id);
-            if (Status == null)
+            var status = await _context.Statuses.FirstOrDefaultAsync(s => s.Id == id && s.IsActive);
+
+            if (status == null)
             {
                 return false;
             }
-            _context.Statuses.Remove(Status);
+
+            status.IsActive = false;
+
+            _context.Statuses.Update(status);
             await _context.SaveChangesAsync();
             return true;
         }

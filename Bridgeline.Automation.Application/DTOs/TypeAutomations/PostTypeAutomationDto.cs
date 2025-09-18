@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Bridgeline.Automation.Application.DTOs.TypeAutomations
 {
-    internal class PostTypeAutomationDto
+    public class PostTypeAutomationDto
     {
         [Required]
         [StringLength(30)]

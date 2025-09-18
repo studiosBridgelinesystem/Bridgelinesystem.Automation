@@ -14,42 +14,43 @@ namespace Bridgeline.Automation.Infraestructure.Repositories
         {
             _context = context;
         }
-        public async Task<AutomationExecutionLog> PostAutomationExecutionLog(AutomationExecutionLog log)
+        public async Task<AutomationExecutionLog> Create (AutomationExecutionLog log)
         {
             _context.ExecutionLogs.Add(log);
             await _context.SaveChangesAsync();
             return log;
         }
 
-        public async Task<AutomationExecutionLog> PutAutomationExecutionLog(AutomationExecutionLog log)
+        public async Task<AutomationExecutionLog> Update (AutomationExecutionLog log)
         {
             var data = _context.ExecutionLogs.Update(log);
             await _context.SaveChangesAsync();
             return log;
         }
 
-        public async Task<List<AutomationExecutionLog>> GetAutomationExecutionLogs()
+        public async Task<List<AutomationExecutionLog>> GetAll ()
         {
             return await _context.ExecutionLogs 
                 .AsNoTracking()
                 .ToListAsync();
         }
 
-        public async Task<AutomationExecutionLog> GetAutomationExecutionLog(Guid id)
+        public async Task<AutomationExecutionLog> GetById (Guid id)
         {
             return await _context.ExecutionLogs 
                 .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<bool> DeleteAutomationExecutionLog(Guid id)
+        public async Task<bool> Delete (Guid id)
         {
-            var log= await _context.ExecutionLogs .FindAsync(id);
-            if (log== null)
-            {
-                return false;
-            }
-            _context.ExecutionLogs .Remove(log);
+            var log= await _context.ExecutionLogs.FirstOrDefaultAsync(a => a.Id == id && a.IsActive);
+            if (log== null) return false;
+            
+            log.IsActive = false;
+            log.UpdatedAt = DateTime.Now;
+
+            _context.ExecutionLogs.Update(log);
             await _context.SaveChangesAsync();
             return true;
         }

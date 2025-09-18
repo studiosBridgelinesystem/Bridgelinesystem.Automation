@@ -30,9 +30,10 @@ namespace Bridgeline.Automation.Application.UseCases.Statuses
                 }
             }
 
-            var data = await _statusRepository.PostStatus(
+            var data = await _statusRepository.Create(
                 new Status
                 {
+                    Id = Guid.NewGuid(),
                     Name = status.Name,
                     CreatedAt = DateTime.UtcNow,
                 });

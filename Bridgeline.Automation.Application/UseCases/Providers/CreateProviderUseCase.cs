@@ -25,6 +25,7 @@ namespace Bridgeline.Automation.Application.UseCases.Providers
             }
             var provider = new Provider
             {
+                Id = Guid.NewGuid(),
                 Name = dto.Name,
                 CreatedAt = DateTime.UtcNow,
                 IsActive = true

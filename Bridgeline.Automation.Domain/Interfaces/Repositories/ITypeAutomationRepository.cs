@@ -4,11 +4,11 @@ namespace Bridgeline.Automation.Domain.Interfaces.Repositories
 {
     public interface ITypeAutomationRepository
     {
-        Task<TypeAutomation> PostTypeAutomation (TypeAutomation typeAutomation);
-        Task<TypeAutomation> PutTypeAutomation (TypeAutomation typeAutomation);
-        Task<TypeAutomation> FindByNameTypeAutomation (string name);
-        Task <List<TypeAutomation>> GetTypeAutomations ();
-        Task<TypeAutomation> GetTypeAutomation (Guid id);
-        Task<bool> DeleteTypeAutomation (Guid id);
+        Task<TypeAutomation> Create (TypeAutomation entity);
+        Task<TypeAutomation> Update(TypeAutomation entity);
+        Task<TypeAutomation> FindByName (string name);
+        Task <List<TypeAutomation>> GetAll ();
+        Task<TypeAutomation> GetById (Guid id);
+        Task<bool> Delete (Guid id);
     }
 }

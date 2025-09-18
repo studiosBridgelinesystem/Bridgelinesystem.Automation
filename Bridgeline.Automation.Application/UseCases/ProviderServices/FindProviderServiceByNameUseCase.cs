@@ -4,11 +4,11 @@ using Bridgeline.Automation.Domain.Interfaces.Repositories;
 
 namespace Bridgeline.Automation.Application.UseCases.ProviderServices
 {
-    public class FindProviderByNameUseCase
+    public class FindProviderServiceByNameUseCase
     {
         private readonly IProviderServiceRepository _providerServiceRepository;
 
-        public FindProviderByNameUseCase (IProviderServiceRepository providerServiceRepository)
+        public FindProviderServiceByNameUseCase (IProviderServiceRepository providerServiceRepository)
         {
             _providerServiceRepository = providerServiceRepository;
         }

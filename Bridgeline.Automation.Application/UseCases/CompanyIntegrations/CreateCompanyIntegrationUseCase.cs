@@ -15,12 +15,14 @@ namespace Bridgeline.Automation.Application.UseCases.CompanyIntegrations
         {
 
             var ExistingCompanyIntegration = await _companyIntegrationRepository.FindByName(dto.Name);
+
             if (ExistingCompanyIntegration != null) {
                 throw new InvalidOperationException($"The name {dto.Name} already exists.");
             }
 
             var newCompanyIntegration = new CompanyIntegration
             {
+                Id = Guid.NewGuid(),
                 Name = dto.Name,
                 TenantId = dto.TenantId,
                 StatusId = dto.StatusId,
