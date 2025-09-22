@@ -7,7 +7,7 @@ namespace Bridgeline.Automation.Domain.Interfaces.Repositories
         Task<Status> Create ( Status status);
         Task <Status> Update ( Status status);
         Task<Status> FindByName(string name);
-        Task<IEnumerable<Status>> GetAll ();
+        Task<List<Status>> GetAll ();
         Task<Status> GetById (Guid id);
         Task<bool> Delete (Guid id);
     }

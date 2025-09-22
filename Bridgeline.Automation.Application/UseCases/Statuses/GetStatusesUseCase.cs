@@ -12,7 +12,7 @@ namespace Bridgeline.Automation.Application.UseCases.Statuses
         }
         public async Task<List<Status>> ExecuteAsync()
         {
-            return await _statusRepository.GetStatuses();
+            return await _statusRepository.GetAll();
         }
     }
 }

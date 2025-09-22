@@ -1,4 +1,6 @@
-﻿using Bridgeline.Automation.Application.UseCases.AutomationExecutionLogs;
+﻿using Bridgeline.Automation.Application.Interfaces.Services;
+using Bridgeline.Automation.Application.Services;
+using Bridgeline.Automation.Application.UseCases.AutomationExecutionLogs;
 using Bridgeline.Automation.Application.UseCases.CompanyAutomations;
 using Bridgeline.Automation.Application.UseCases.CompanyIntegrations;
 using Bridgeline.Automation.Application.UseCases.Providers;
@@ -12,7 +14,13 @@ namespace Bridgeline.Automation.Application.Injection
     {
         public static IServiceCollection AddApplicationServices (this IServiceCollection services)
         {
-           // STATUS
+
+
+           //SERVICES 
+
+           services.AddScoped<IStatusServices, StatusServices>();
+
+            // STATUS
             services.AddScoped<CreateStatusUseCase>();
             services.AddScoped<UpdateStatusUseCase>();
             services.AddScoped<FindByNameStatusUseCase>();

@@ -1,4 +1,5 @@
 ﻿using Bridgeline.Automation.Application.DTOs.Statuses;
+using Bridgeline.Automation.Application.Exceptions;
 using Bridgeline.Automation.Domain.entities;
 using Bridgeline.Automation.Domain.Interfaces.Repositories;
 
@@ -26,7 +27,7 @@ namespace Bridgeline.Automation.Application.UseCases.Statuses
 
                 if (existingName != null)
                 {
-                    throw new Exception("The name already exists");
+                    throw new ConflictException($"A status with the name {status.Name} already exists");
                 }
             }
 
@@ -36,6 +37,7 @@ namespace Bridgeline.Automation.Application.UseCases.Statuses
                     Id = Guid.NewGuid(),
                     Name = status.Name,
                     CreatedAt = DateTime.UtcNow,
+                    IsActive = true
                 });
             return data;
         }

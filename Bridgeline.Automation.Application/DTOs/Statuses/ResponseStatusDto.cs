@@ -2,16 +2,16 @@
 
 namespace Bridgeline.Automation.Application.DTOs.Statuses
 {
-    public class ReponseStatusDto
+    public class ResponseStatusDto
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
 
-        public ReponseStatusDto() { }
-        public static ReponseStatusDto FromEntity(Status entity)
+        public ResponseStatusDto() { }
+        public static ResponseStatusDto FromEntity(Status entity)
         {
             if (entity == null) return null;
-            return new ReponseStatusDto
+            return new ResponseStatusDto
             {
                 Id = entity.Id,
                 Name = entity.Name

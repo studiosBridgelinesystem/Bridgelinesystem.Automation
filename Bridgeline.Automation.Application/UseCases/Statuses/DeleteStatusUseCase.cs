@@ -14,12 +14,13 @@ namespace Bridgeline.Automation.Application.UseCases.Statuses
         public async Task<bool> ExecuteAsync(Guid statusId)
         {
             var status = await _getStatusUseCase.ExecuteAsync(statusId);
-            if (status == null)
+
+            if (status !=null && status.IsActive == false)
             {
-                throw new KeyNotFoundException("Status not found.");
+                throw new Exception("Status is already inactive and cannot be deleted.");
             }
-            await _statusRepository.DeleteStatus(statusId);
-            return true;
+
+            return await _statusRepository.Delete(statusId);
         }
     }
 }

@@ -2,6 +2,7 @@
 using Bridgeline.Automation.Domain.Interfaces.Repositories;
 using Bridgeline.Automation.Infraestructure.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 namespace Bridgeline.Automation.Infraestructure.Repositories
 {
@@ -21,11 +22,21 @@ namespace Bridgeline.Automation.Infraestructure.Repositories
             return Status;
         }
 
-        public async Task<Status> Update (Status Status)
+        public async Task<Status> Update(Status Status)
         {
-            var data = _context.Statuses.Update(Status);
-            await _context.SaveChangesAsync();
-            return Status;
+            {
+                var existing = await _context.Statuses.FirstOrDefaultAsync(s => s.Id == Status.Id);
+
+                if (existing == null)
+                    throw new KeyNotFoundException("Status not found");
+
+                existing.Name = Status.Name;
+                existing.IsActive = existing.IsActive;
+                existing.UpdatedAt = DateTime.UtcNow;
+
+                await _context.SaveChangesAsync();
+                return existing;
+            }
         }
 
         public async Task<Status> FindByName (string name)
@@ -33,9 +44,10 @@ namespace Bridgeline.Automation.Infraestructure.Repositories
             return await _context.Statuses.FirstOrDefaultAsync(x => x.Name == name);
         }
 
-        public async Task<IEnumerable<Status>> GetAll()
+        public async Task<List<Status>> GetAll()
         {
             return await _context.Statuses
+                .Where(s => s.IsActive)
                 .AsNoTracking()
                 .ToListAsync();
         }
