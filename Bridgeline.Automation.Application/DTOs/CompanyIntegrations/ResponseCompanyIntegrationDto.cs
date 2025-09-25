@@ -1,10 +1,8 @@
 ﻿using Bridgeline.Automation.Domain.entities;
-using System.Net.NetworkInformation;
-
 
 namespace Bridgeline.Automation.Application.DTOs.CompanyIntegrations
 {
-    public class ReponseCompanyIntegrationDto
+    public class ResponseCompanyIntegrationDto
     {
         public Guid Id { get; set; }
         public Guid? TenantId { get; set; }
@@ -17,12 +15,12 @@ namespace Bridgeline.Automation.Application.DTOs.CompanyIntegrations
         public virtual ProviderService ProviderService { get; set; }
         public virtual Status Status { get; set; }
 
-        public ReponseCompanyIntegrationDto () { }
+        public ResponseCompanyIntegrationDto () { }
 
-        public static ReponseCompanyIntegrationDto FromEntity(CompanyIntegration entity)
+        public static ResponseCompanyIntegrationDto FromEntity(CompanyIntegration entity)
         {
             if (entity == null) return null;
-            return new ReponseCompanyIntegrationDto
+            return new ResponseCompanyIntegrationDto
             {
                 Id = entity.Id,
                 TenantId = entity.TenantId,
@@ -36,5 +34,8 @@ namespace Bridgeline.Automation.Application.DTOs.CompanyIntegrations
                 Status = entity.Status
             };
         }
+
+        public static List<ResponseCompanyIntegrationDto> FromEntities(IEnumerable<CompanyIntegration> entities) =>
+            entities?.Select(FromEntity).ToList();
     }
 }

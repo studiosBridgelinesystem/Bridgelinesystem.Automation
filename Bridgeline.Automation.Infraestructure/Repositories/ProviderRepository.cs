@@ -21,20 +21,10 @@ namespace Bridgeline.Automation.Infraestructure.Repositories
             return provider;
         }
 
-        public async Task<Provider> Update (Guid id, Provider provider)
+        public async Task<Provider> Update (Provider provider)
         {
-            var existingProvider = await _context.Providers.FirstOrDefaultAsync(provider => provider.Id == id && provider.IsActive);
-
-            if (existingProvider != null) {
-
-                existingProvider.Name = provider.Name ?? existingProvider.Name;
-                existingProvider.IsActive = true;
-                existingProvider.UpdatedAt = DateTime.Now;
-
-            var data = _context.Providers.Update (existingProvider);
-
+            _context.Providers.Update(provider);
             await _context.SaveChangesAsync();
-            }
             return provider;
         }
 

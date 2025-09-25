@@ -2,7 +2,7 @@
 
 namespace Bridgeline.Automation.Application.Interfaces.Services
 {
-    public interface IStatusServices
+    public interface IStatusService
     {
         public Task<ResponseStatusDto> CreateStatusService(PostStatusDto status);
         public Task<ResponseStatusDto> UpdateStatusService(Guid id, PutStatusDto status);

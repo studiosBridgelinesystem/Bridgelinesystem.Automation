@@ -36,5 +36,8 @@ namespace Bridgeline.Automation.Application.DTOs.CompanyAutomations
                 TypeAutomation = companyAutomation.TypeAutomation
             };
         }
+
+        public static List<ResponseCompanyAutomationDto> FromEntities(IEnumerable<CompanyAutomation> companyAutomations) =>
+            companyAutomations.Select(FromEntity).ToList();
     }
 }

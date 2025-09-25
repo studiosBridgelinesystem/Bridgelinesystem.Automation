@@ -2,7 +2,6 @@
 using Bridgeline.Automation.Application.Exceptions;
 using Bridgeline.Automation.Domain.entities;
 using Bridgeline.Automation.Domain.Interfaces.Repositories;
-using System.Data;
 
 namespace Bridgeline.Automation.Application.UseCases.Statuses
 {
@@ -20,24 +19,23 @@ namespace Bridgeline.Automation.Application.UseCases.Statuses
 
         public async Task<Status> ExecuteAsync(Guid id, PutStatusDto status)
         {
-     
-            if(!string.IsNullOrEmpty(status.Name))
+
+            var existingStatus = await _getStatusUseCase.ExecuteAsync(id) ?? throw new NotFoundException("Status not found.");
+
+            if (!string.IsNullOrEmpty(status.Name))
             {
-                var existingStatus = await _findByNameStatusUseCase.ExecuteAsync(status.Name);
-                if (existingStatus != null && existingStatus.Id != id)
+                var existingName = await _findByNameStatusUseCase.ExecuteAsync(status.Name);
+
+                if (existingName != null && existingName.Id != id)
                 {
                     throw new ConflictException($"A status with name '{status.Name}' already exists");
                 }
             }
 
-            var data = new Status
-            {
-                Id = id,
-                Name = status.Name,
-                UpdatedAt = DateTime.UtcNow
-            };
+            existingStatus.Name = status.Name ?? existingStatus.Name;
+            existingStatus.UpdatedAt = DateTime.UtcNow;
 
-            return await _statusRepository.Update(data);
+            return await _statusRepository.Update(existingStatus);
         }
     }
 }

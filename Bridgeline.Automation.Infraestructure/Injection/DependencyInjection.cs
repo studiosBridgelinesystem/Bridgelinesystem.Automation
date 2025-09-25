@@ -10,12 +10,10 @@ namespace Bridgeline.Automation.Infraestructure.Injection
         {
             services.AddScoped<IProviderRepository, ProviderRepository>();
             services.AddScoped<IProviderServiceRepository, ProviderServiceRepository>();
-
             services.AddScoped<ICompanyIntegrationRepository, CompanyIntegrationRepository>();
             services.AddScoped<ICompanyAutomationRepository, CompanyAutomationRepositoy>();
             services.AddScoped<ITypeAutomationRepository, TypeAutomationRepository>();
             services.AddScoped<IAutomationExecutionLogRepository, AutomationExecutionLogRepository>();
-
             services.AddScoped<IStatusRepository, StatusRepository>();
 
             return services;

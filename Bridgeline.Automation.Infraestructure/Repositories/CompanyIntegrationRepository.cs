@@ -20,24 +20,9 @@ namespace Bridgeline.Automation.Infraestructure.Repositories
             return companyIntegration;
         }
 
-        public async Task<CompanyIntegration> Update (Guid id ,CompanyIntegration companyIntegration)
+        public async Task<CompanyIntegration> Update (CompanyIntegration companyIntegration)
         {
-            var ExistingCompanyIntegration = await _context.CompanyIntegrations.FirstOrDefaultAsync(c => c.Id == id && c.IsActive);
-
-            if (ExistingCompanyIntegration != null) {
-            
-            ExistingCompanyIntegration.Id = id;
-            ExistingCompanyIntegration.Name = companyIntegration.Name ?? ExistingCompanyIntegration.Name;    
-            ExistingCompanyIntegration.ProviderService = companyIntegration.ProviderService ?? ExistingCompanyIntegration.ProviderService;
-            ExistingCompanyIntegration.ProviderServiceId = companyIntegration.ProviderServiceId ?? ExistingCompanyIntegration.ProviderServiceId;
-            ExistingCompanyIntegration.Configuration = companyIntegration.Configuration ?? ExistingCompanyIntegration.Configuration;
-            ExistingCompanyIntegration.Credentials = companyIntegration.Credentials ?? ExistingCompanyIntegration.Credentials;
-            ExistingCompanyIntegration.StatusId = companyIntegration.StatusId ?? ExistingCompanyIntegration.StatusId;
-            ExistingCompanyIntegration.LastSyncAt = companyIntegration.LastSyncAt ?? ExistingCompanyIntegration.LastSyncAt;
-            ExistingCompanyIntegration.TenantId = companyIntegration.TenantId ?? ExistingCompanyIntegration.TenantId;
-            ExistingCompanyIntegration.UpdatedAt = DateTime.Now;
-            }
-            var data = _context.CompanyIntegrations.Update(ExistingCompanyIntegration);
+            _context.CompanyIntegrations.Update(companyIntegration);
             await _context.SaveChangesAsync();
             return companyIntegration;
         }

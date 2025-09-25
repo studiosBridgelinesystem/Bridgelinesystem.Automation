@@ -22,7 +22,7 @@ namespace Bridgeline.Automation.Infraestructure.Repositories
 
         public async Task<ProviderService> Update(ProviderService providerService)
         {
-            var data = _context.ProviderServices.Update(providerService);
+            _context.ProviderServices.Update(providerService);
             await _context.SaveChangesAsync();
             return providerService;
         }

@@ -1,5 +1,6 @@
 ﻿
 using Bridgeline.Automation.Application.DTOs.TypeAutomations;
+using Bridgeline.Automation.Domain.entities;
 using Bridgeline.Automation.Domain.Interfaces.Repositories;
 
 namespace Bridgeline.Automation.Application.UseCases.TypeAutomations
@@ -11,7 +12,7 @@ namespace Bridgeline.Automation.Application.UseCases.TypeAutomations
         {
             _typeAutomationRepository = typeAutomationRepository;
         }
-        public async Task ExecuteAsync(Guid id , PutTypeAutomationDto dto)
+        public async Task<TypeAutomation> ExecuteAsync(Guid id , PutTypeAutomationDto dto)
         {
 
             var TypeAutomation = await _typeAutomationRepository.GetById(id) ??  throw new KeyNotFoundException($"TypeAutomation with id {id} not found.");
@@ -22,7 +23,7 @@ namespace Bridgeline.Automation.Application.UseCases.TypeAutomations
             TypeAutomation.DefaultConfig = dto.DefaultConfig ?? TypeAutomation.DefaultConfig;
             TypeAutomation.UpdatedAt = DateTime.UtcNow;
         
-            await _typeAutomationRepository.Update(TypeAutomation);
+            return await _typeAutomationRepository.Update(TypeAutomation);
         }
     }
 }

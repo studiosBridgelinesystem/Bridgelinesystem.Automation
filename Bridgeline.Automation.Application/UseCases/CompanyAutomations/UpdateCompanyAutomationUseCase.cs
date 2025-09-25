@@ -1,4 +1,5 @@
 ﻿using Bridgeline.Automation.Application.DTOs.CompanyAutomations;
+using Bridgeline.Automation.Application.Exceptions;
 using Bridgeline.Automation.Domain.entities;
 using Bridgeline.Automation.Domain.Interfaces.Repositories;
 
@@ -15,13 +16,13 @@ namespace Bridgeline.Automation.Application.UseCases.CompanyAutomations
         public async Task<CompanyAutomation> ExecuteAsync (Guid id, PutCompanyAutomationDto companyAutomation)
         {
 
-            var existingCompanyAutomation = await _companyAutomationRepository.GetById(id) ?? throw new Exception("Company Automation not found.");
+            var existingCompanyAutomation = await _companyAutomationRepository.GetById(id) ?? throw new NotFoundException($"Company with id: {id} Automation not found.");
 
             var existingName = await _companyAutomationRepository.FindByName(companyAutomation.Name);
 
             if(existingName != null && existingName.Id != id)
             {
-                throw new Exception("A Company Automation with the same name already exists.");
+                throw new ConflictException("A Company Automation with the same name already exists.");
             }
 
             existingCompanyAutomation.Name = companyAutomation.Name ?? existingCompanyAutomation.Name;

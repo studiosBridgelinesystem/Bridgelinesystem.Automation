@@ -5,7 +5,7 @@ using Bridgeline.Automation.Application.UseCases.Statuses;
 
 namespace Bridgeline.Automation.Application.Services
 {
-    public  class StatusServices : IStatusServices
+    public  class StatusService : IStatusService
     {
         private readonly CreateStatusUseCase _createStatusUseCase;
         private readonly UpdateStatusUseCase _updateStatusUseCase;
@@ -14,7 +14,7 @@ namespace Bridgeline.Automation.Application.Services
         private readonly GetStatusesUseCase _getStatusesUseCase;
         private readonly DeleteStatusUseCase _deleteStatusUseCase;
 
-        public StatusServices(
+        public StatusService(
             CreateStatusUseCase createStatusUseCase,
             UpdateStatusUseCase updateStatusUseCase,
             FindByNameStatusUseCase findByNameStatusUseCase,
@@ -34,48 +34,30 @@ namespace Bridgeline.Automation.Application.Services
         public async Task<ResponseStatusDto>CreateStatusService(PostStatusDto status)
         {
             var result = await _createStatusUseCase.ExecuteAsync(status);
-            return new ResponseStatusDto
-            {
-                Id = result.Id,
-                Name = result.Name
-            };
+            return ResponseStatusDto.FromEntity(result);
         }
         public async Task<ResponseStatusDto> UpdateStatusService(Guid id, PutStatusDto status)
         {
             var result = await _updateStatusUseCase.ExecuteAsync(id, status);
-            return new ResponseStatusDto
-            {
-                Id = result.Id,
-                Name = result.Name
-            };
+            return ResponseStatusDto.FromEntity(result);
         }
 
         public async Task<ResponseStatusDto> FindByNameStatusService(string name)
         {
             var result = await _findByNameStatusUseCase.ExecuteAsync(name);
-            if (result == null) return null;
-            return new ResponseStatusDto
-            {
-                Id = result.Id,
-                Name = result.Name
-            };
+            return ResponseStatusDto.FromEntity(result);
         }
 
         public async Task<ResponseStatusDto> GetStatusService(Guid id)
         {
             var result = await _getStatusUseCase.ExecuteAsync(id);
-            if (result == null) return null;
-            return new ResponseStatusDto
-            {
-                Id = result.Id,
-                Name = result.Name
-            };
+            return ResponseStatusDto.FromEntity(result);
         }
 
         public async Task<List<ResponseStatusDto>> GetStatusesService()
         {
             var results = await _getStatusesUseCase.ExecuteAsync();
-            return results.Select(result => ResponseStatusDto.FromEntity(result)).ToList();
+            return ResponseStatusDto.FromEntities(results);
         }
 
         public async Task<bool> DeleteStatusService(Guid statusId)

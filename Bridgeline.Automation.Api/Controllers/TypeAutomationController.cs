@@ -1,4 +1,4 @@
-﻿using Bridgeline.Automation.Application.DTOs.Statuses;
+﻿using Bridgeline.Automation.Application.DTOs.TypeAutomations;
 using Bridgeline.Automation.Application.Exceptions;
 using Bridgeline.Automation.Application.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -7,26 +7,30 @@ namespace Bridgeline.Automation.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class StatusController : ControllerBase
+    public class TypeAutomationController : ControllerBase
     {
-        private readonly ILogger<StatusController> _logger;
-        private readonly IStatusService _statusServices;
-        public StatusController(ILogger<StatusController> logger, IStatusService statusServices)
+        private readonly ILogger<TypeAutomationController> _logger;
+        private readonly ITypeAutomationService _typeAutomationServices;
+        public TypeAutomationController
+        (
+            ILogger<TypeAutomationController> logger, 
+            ITypeAutomationService typeAutomationServices
+        )
         {
             _logger = logger;
-            _statusServices = statusServices;
+            _typeAutomationServices = typeAutomationServices;
         }
 
         [HttpPost]
-        public async  Task<ActionResult> Post (PostStatusDto statusDto)
+        public async Task<ActionResult> Post(PostTypeAutomationDto typeAutomationDto)
         {
             try
             {
-                var data = await _statusServices.CreateStatusService(statusDto);
+                var data = await _typeAutomationServices.CreateTypeAutomationService(typeAutomationDto);
 
                 if (data == null)
                 {
-                    return BadRequest("Status creation failed");
+                    return BadRequest($"Type automation {typeAutomationDto.Name} creation failed");
                 }
 
                 return Ok(data);
@@ -43,12 +47,12 @@ namespace Bridgeline.Automation.Api.Controllers
             }
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult> Put(Guid id, PutStatusDto statusDto)
+        [HttpPatch("{id}")]
+        public async Task<ActionResult> Patch(Guid id, PutTypeAutomationDto typeAutomationDto)
         {
             try
             {
-                var data = await _statusServices.UpdateStatusService(id, statusDto);
+                var data = await _typeAutomationServices.UpdateTypeAutomationService(id,typeAutomationDto);
 
                 if (data == null)
                 {
@@ -58,12 +62,12 @@ namespace Bridgeline.Automation.Api.Controllers
             }
             catch (ConflictException ex)
             {
-                _logger.LogError(ex, "Conflict in StatusController Put method");
+                _logger.LogError(ex, "Conflict in TypeAutomationController Put method");
                 return Conflict(ex.Message);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error in StatusController Put method");
+                _logger.LogError(ex, "Error in TypeAutomationController Put method");
                 return StatusCode(500, "Internal server error");
             }
         }
@@ -73,32 +77,31 @@ namespace Bridgeline.Automation.Api.Controllers
         {
             try
             {
-                var data = await _statusServices.GetStatusService(id);
+                var data = await _typeAutomationServices.GetTypeAutomationService(id);
                 if (data == null)
                 {
-                    return NotFound($"Status with ID '{id}' not found");
+                    return NotFound($"TypeAutomation with ID '{id}' not found");
                 }
                 return Ok(data);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error in StatusController GetById method");
+                _logger.LogError(ex, "Error in TypeAutomationController GetById method");
                 return StatusCode(500, "Internal server error");
             }
         }
-
 
         [HttpGet]
         public async Task<IActionResult> Get()
         {
             try
             {
-                var data = await _statusServices.GetStatusesService();
+                var data = await _typeAutomationServices.GetTypeAutomationsService();
                 return Ok(data);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error in StatusController Get method");
+                _logger.LogError(ex, "Error in TypeAutomationController Get method");
                 return StatusCode(500, "Internal server error");
 
             }
@@ -109,16 +112,16 @@ namespace Bridgeline.Automation.Api.Controllers
         {
             try
             {
-                var result = await _statusServices.DeleteStatusService(id);
+                var result = await _typeAutomationServices.DeleteTypeAutomationService(id);
                 if (!result)
                 {
-                    return NotFound($"Status with ID '{id}' not found or could not be deleted");
+                    return NotFound($"Type Automation with ID '{id}' not found or could not be deleted");
                 }
                 return NoContent();
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error in StatusController Delete method");
+                _logger.LogError(ex, "Error in TypeAutomationController Delete method");
                 return StatusCode(500, "Internal server error");
             }
         }

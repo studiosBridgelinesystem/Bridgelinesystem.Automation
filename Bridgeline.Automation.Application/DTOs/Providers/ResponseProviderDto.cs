@@ -17,5 +17,8 @@ namespace Bridgeline.Automation.Application.DTOs.Providers
                 Name = entity.Name
             };
         }
+
+        public static List<ResponseProviderDto> FromEntities(IEnumerable<Provider> entities) =>
+            entities?.Select(FromEntity).ToList();
     }
 }

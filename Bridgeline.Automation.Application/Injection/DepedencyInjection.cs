@@ -15,10 +15,15 @@ namespace Bridgeline.Automation.Application.Injection
         public static IServiceCollection AddApplicationServices (this IServiceCollection services)
         {
 
-
            //SERVICES 
 
-           services.AddScoped<IStatusServices, StatusServices>();
+           services.AddScoped<IStatusService, StatusService>();
+           services.AddScoped<ITypeAutomationService, TypeAutomationService>();
+           services.AddScoped<IProviderService, ProviderService>();
+           services.AddScoped<IProviderServicesService, ProviderServicesService>();
+           services.AddScoped<ICompanyIntegrationService, CompanyIntegrationService>();
+           services.AddScoped<ICompanyAutomationService, CompanyAutomationService>();
+           services.AddScoped<IAutomationExecutionLogService, AutomationExecutionLogService>();
 
             // STATUS
             services.AddScoped<CreateStatusUseCase>();
@@ -33,6 +38,7 @@ namespace Bridgeline.Automation.Application.Injection
             services.AddScoped<UpdateProviderUseCase>();
             services.AddScoped<FindByNameProviderUseCase>();
             services.AddScoped<GetProviderUseCase>();
+            services.AddScoped<GetProvidersUseCase>();
             services.AddScoped<DeleteProviderUseCase>();
 
             // PROVIDER SERVICE

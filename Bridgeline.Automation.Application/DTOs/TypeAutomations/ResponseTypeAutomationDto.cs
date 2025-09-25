@@ -24,5 +24,7 @@ namespace Bridgeline.Automation.Application.DTOs.TypeAutomations
                 DefaultConfig = entity.DefaultConfig
             };
         }
+        public static List<ResponseTypeAutomationDto> FromEntities(IEnumerable<TypeAutomation> entities)  => 
+        entities?.Select(FromEntity).ToList();
     }
 }

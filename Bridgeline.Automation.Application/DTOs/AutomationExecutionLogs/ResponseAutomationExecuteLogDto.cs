@@ -28,6 +28,9 @@ namespace Bridgeline.Automation.Application.DTOs.AutomationExecutionLogs
             };
             return dto;
         }
+
+        public static List<ResponseAutomationExecuteLogDto> FromEntities(IEnumerable<AutomationExecutionLog> logs) =>
+            logs?.Select(FromEntity).ToList();
     }
 
 }

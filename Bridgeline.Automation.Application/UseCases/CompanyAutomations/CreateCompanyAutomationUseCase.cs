@@ -1,4 +1,5 @@
 ﻿using Bridgeline.Automation.Application.DTOs.CompanyAutomations;
+using Bridgeline.Automation.Application.Exceptions;
 using Bridgeline.Automation.Application.UseCases.TypeAutomations;
 using Bridgeline.Automation.Domain.entities;
 using Bridgeline.Automation.Domain.Interfaces.Repositories;
@@ -22,10 +23,10 @@ namespace Bridgeline.Automation.Application.UseCases.CompanyAutomations
             var existingCompanyAutomation = await _companyAutomationRepository.FindByName(dto.Name);
             if (existingCompanyAutomation != null)
             {
-                throw new Exception("A Company Automation with the same name already exists.");
+                throw new ConflictException("A Company Automation with the same name already exists.");
             }
 
-            var existingTypeAutomation = await _getTypeAutomationUseCase.ExecuteAsync(dto.TypeAutomationId) ?? throw new Exception("Type Automation not found.");
+            var existingTypeAutomation = await _getTypeAutomationUseCase.ExecuteAsync(dto.TypeAutomationId) ?? throw new NotFoundException("Type Automation not found.");
 
             var companyAutomation = new CompanyAutomation
             {

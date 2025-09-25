@@ -10,7 +10,7 @@ namespace Bridgeline.Automation.Application.DTOs.ProviderServices
         public bool RequiredCredentials { get; set; }
         public virtual Provider Provider { get; set; }
         public ResponseProviderServiceDto() { }
-        public static ResponseProviderServiceDto EntityToDto(ProviderService entity)
+        public static ResponseProviderServiceDto FromEntity (ProviderService entity)
         {
             if (entity == null) return null;
             return new ResponseProviderServiceDto
@@ -22,5 +22,8 @@ namespace Bridgeline.Automation.Application.DTOs.ProviderServices
                 Provider = entity.Provider
             };
         }
+
+        public static List<ResponseProviderServiceDto> FromEntities(IEnumerable<ProviderService> entities) => 
+            entities?.Select(FromEntity).ToList();
     }
 }

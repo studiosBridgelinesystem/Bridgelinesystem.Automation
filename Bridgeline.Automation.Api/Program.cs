@@ -1,3 +1,4 @@
+using Bridgeline.Automation.Api.Middlewares;
 using Bridgeline.Automation.Application.Injection;
 using Bridgeline.Automation.Infraestructure.Data;
 using Bridgeline.Automation.Infraestructure.Injection;
@@ -14,11 +15,14 @@ options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")
 builder.Services.AddInfraestructureServices();
 builder.Services.AddApplicationServices();
 
+
+
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -28,7 +32,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+
 app.UseAuthorization();
+
 
 app.MapControllers();
 

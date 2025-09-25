@@ -1,4 +1,5 @@
 ﻿using Bridgeline.Automation.Application.DTOs.CompanyIntegrations;
+using Bridgeline.Automation.Application.Exceptions;
 using Bridgeline.Automation.Application.UseCases.ProviderServices;
 using Bridgeline.Automation.Application.UseCases.Statuses;
 using Bridgeline.Automation.Domain.entities;
@@ -11,7 +12,10 @@ namespace Bridgeline.Automation.Application.UseCases.CompanyIntegrations
         private readonly ICompanyIntegrationRepository _companyIntegrationRepository;
         private readonly GetStatusUseCase _getStatusUseCase;
         private readonly GetProviderServiceUseCase _getProviderServiceUseCase;
-        public UpdateCompanyIntegrationUseCase(ICompanyIntegrationRepository companyIntegrationRepository, GetStatusUseCase getStatusUseCase, GetProviderServiceUseCase getProviderServiceUseCase)
+        public UpdateCompanyIntegrationUseCase(
+            ICompanyIntegrationRepository companyIntegrationRepository, 
+            GetStatusUseCase getStatusUseCase, 
+            GetProviderServiceUseCase getProviderServiceUseCase)
         {
             _companyIntegrationRepository = companyIntegrationRepository;
             _getStatusUseCase = getStatusUseCase;
@@ -19,7 +23,7 @@ namespace Bridgeline.Automation.Application.UseCases.CompanyIntegrations
         }
         public async Task<CompanyIntegration> ExecuteAsync(Guid id, PutCompanyIntegrationDto dto)
         {
-            var existingCompanyIntegration = await _companyIntegrationRepository.GetById(id) ?? throw new Exception("Company Integration not found.");
+            var existingCompanyIntegration = await _companyIntegrationRepository.GetById(id) ?? throw new  NotFoundException("Company Integration not found.");
 
 
             if(dto.Name != null)
@@ -28,18 +32,18 @@ namespace Bridgeline.Automation.Application.UseCases.CompanyIntegrations
 
                 if (existingName != null && existingName.Id != id)
                 {
-                    throw new Exception("A Company Integration with the same name already exists.");
+                    throw new ConflictException("A Company Integration with the same name already exists.");
                 }
             }
 
             if(dto.StatusId != null)
             {
-                var validStatus = await _getStatusUseCase.ExecuteAsync((Guid)dto.StatusId) ?? throw new Exception("Status not found.");
+                _ = await _getStatusUseCase.ExecuteAsync((Guid)dto.StatusId) ?? throw new NotFoundException("Status not found.");
             }
 
             if(dto.ProviderServiceId != null)
             {
-                var validProviderService = await _getProviderServiceUseCase.ExecuteAsync((Guid)dto.ProviderServiceId) ?? throw new Exception("Provider Service not found.");
+                _ = await _getProviderServiceUseCase.ExecuteAsync((Guid)dto.ProviderServiceId) ?? throw new NotFoundException("Provider Service not found.");
             }
 
             existingCompanyIntegration.Name = dto.Name ?? existingCompanyIntegration.Name;
@@ -50,7 +54,7 @@ namespace Bridgeline.Automation.Application.UseCases.CompanyIntegrations
             existingCompanyIntegration.UpdatedAt = DateTime.UtcNow;
             
             
-            return await _companyIntegrationRepository.Update(id, existingCompanyIntegration);
+            return await _companyIntegrationRepository.Update(existingCompanyIntegration);
         }
 
     }

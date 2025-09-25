@@ -17,7 +17,7 @@ namespace Bridgeline.Automation.Application.UseCases.Providers
             _getProviderUseCase = getProviderUseCase;
         }
 
-        public async Task<Provider> ExecuteAsync (Guid Id, PostProviderDto dto)
+        public async Task<Provider> ExecuteAsync (Guid Id, PutProviderDto dto)
         {
             var existingProvider = await _getProviderUseCase.ExecuteAsync(Id);
 
@@ -34,11 +34,13 @@ namespace Bridgeline.Automation.Application.UseCases.Providers
                 {
                     throw new InvalidOperationException("Another provider with the same name already exists.");
                 }
+
+
                 existingProvider.Name = dto.Name;
                 existingProvider.UpdatedAt = DateTime.Now;
             }
 
-            return await _providerRepository.Update(Id,existingProvider);
+            return await _providerRepository.Update(existingProvider);
         }
     }
 }

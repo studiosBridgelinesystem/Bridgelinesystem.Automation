@@ -25,17 +25,9 @@ namespace Bridgeline.Automation.Infraestructure.Repositories
         public async Task<Status> Update(Status Status)
         {
             {
-                var existing = await _context.Statuses.FirstOrDefaultAsync(s => s.Id == Status.Id);
-
-                if (existing == null)
-                    throw new KeyNotFoundException("Status not found");
-
-                existing.Name = Status.Name;
-                existing.IsActive = existing.IsActive;
-                existing.UpdatedAt = DateTime.UtcNow;
-
+               _context.Statuses.Update(Status);
                 await _context.SaveChangesAsync();
-                return existing;
+                return Status;
             }
         }
 

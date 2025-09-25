@@ -8,6 +8,7 @@ namespace Bridgeline.Automation.Application.DTOs.Statuses
         public string Name { get; set; }
 
         public ResponseStatusDto() { }
+
         public static ResponseStatusDto FromEntity(Status entity)
         {
             if (entity == null) return null;
@@ -17,5 +18,8 @@ namespace Bridgeline.Automation.Application.DTOs.Statuses
                 Name = entity.Name
             };
         }
+
+        public static List<ResponseStatusDto> FromEntities(IEnumerable<Status> entities) =>
+        entities?.Select(FromEntity).ToList();
     }
 }

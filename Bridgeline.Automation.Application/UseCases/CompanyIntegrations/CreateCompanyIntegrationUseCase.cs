@@ -11,7 +11,7 @@ namespace Bridgeline.Automation.Application.UseCases.CompanyIntegrations
         {
             _companyIntegrationRepository = companyIntegrationRepository;
         }
-        public async Task<CompanyIntegration> ExeuteAsync(PostCompanyIntegrationDto dto)
+        public async Task<CompanyIntegration> ExecuteAsync(PostCompanyIntegrationDto dto)
         {
 
             var ExistingCompanyIntegration = await _companyIntegrationRepository.FindByName(dto.Name);
