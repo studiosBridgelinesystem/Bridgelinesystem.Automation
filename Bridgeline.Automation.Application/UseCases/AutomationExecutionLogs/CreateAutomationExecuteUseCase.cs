@@ -1,4 +1,5 @@
 ﻿using Bridgeline.Automation.Application.DTOs.AutomationExecutionLogs;
+using Bridgeline.Automation.Application.Exceptions;
 using Bridgeline.Automation.Application.UseCases.CompanyIntegrations;
 using Bridgeline.Automation.Domain.entities;
 using Bridgeline.Automation.Domain.Interfaces.Repositories;
@@ -18,14 +19,7 @@ namespace Bridgeline.Automation.Application.UseCases.AutomationExecutionLogs
         {
 
 
-            if(automationExecutionLog.CompanyIntegrationId == Guid.Empty)
-            {
-                throw new Exception("Company Integration ID is required.");
-            }
-
-
-
-            var existingCompanyIntegrationId = await _getCompanyIntegrationUseCase.ExecuteAsync(automationExecutionLog.CompanyIntegrationId) ?? throw new Exception("Company Integration not found.");
+            var existingCompanyIntegrationId = await _getCompanyIntegrationUseCase.ExecuteAsync(automationExecutionLog.CompanyIntegrationId) ?? throw new NotFoundException("Company Integration not found.");
 
             var newLog = new AutomationExecutionLog
             {

@@ -35,6 +35,8 @@ namespace Bridgeline.Automation.Infraestructure.Repositories
         public async Task<IEnumerable<ProviderService>> GetAll()
         {
             return await _context.ProviderServices
+                .Where(x => x.IsActive)
+                .Include(p => p.Provider)
                 .AsNoTracking()
                 .ToListAsync();
         }
@@ -42,8 +44,10 @@ namespace Bridgeline.Automation.Infraestructure.Repositories
         public async Task<ProviderService> GetById(Guid id)
         {
             return await _context.ProviderServices
+                .Include(p => p.Provider)
                 .AsNoTracking()
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .FirstOrDefaultAsync(x => x.Id == id && x.IsActive);
+                
         }
 
         public async Task<bool> Delete(Guid id)

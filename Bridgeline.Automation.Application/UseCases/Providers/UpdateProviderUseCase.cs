@@ -1,4 +1,5 @@
 ﻿using Bridgeline.Automation.Application.DTOs.Providers;
+using Bridgeline.Automation.Application.Exceptions;
 using Bridgeline.Automation.Domain.entities;
 using Bridgeline.Automation.Domain.Interfaces.Repositories;
 
@@ -17,28 +18,23 @@ namespace Bridgeline.Automation.Application.UseCases.Providers
             _getProviderUseCase = getProviderUseCase;
         }
 
-        public async Task<Provider> ExecuteAsync (Guid Id, PutProviderDto dto)
+        public async Task<Provider> ExecuteAsync(Guid Id, PutProviderDto dto)
         {
-            var existingProvider = await _getProviderUseCase.ExecuteAsync(Id);
+            var existingProvider = await _getProviderUseCase.ExecuteAsync(Id) ?? throw new NotFoundException($"Provider with id {Id} not found.");
 
-            if (existingProvider == null)
-            {
-                throw new ArgumentException("Provider not found.");
-            }
 
-            if(!string.IsNullOrEmpty(dto.Name) && dto.Name != existingProvider.Name)
+            if (!string.IsNullOrEmpty(dto.Name) && dto.Name != existingProvider.Name)
             {
                 var providerWithSameName = await _findByNameProviderUseCase.ExecuteAsync(dto.Name);
 
                 if (providerWithSameName != null && providerWithSameName.Id != Id)
                 {
-                    throw new InvalidOperationException("Another provider with the same name already exists.");
+                    throw new ConflictException("Another provider with the same name already exists.");
                 }
 
-
-                existingProvider.Name = dto.Name;
-                existingProvider.UpdatedAt = DateTime.Now;
             }
+            existingProvider.Name = dto.Name ?? existingProvider.Name;
+            existingProvider.UpdatedAt = DateTime.UtcNow;
 
             return await _providerRepository.Update(existingProvider);
         }

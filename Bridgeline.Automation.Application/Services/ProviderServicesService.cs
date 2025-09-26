@@ -27,7 +27,7 @@ namespace Bridgeline.Automation.Application.Services
             _deleteProviderServiceUseCase = deleteProviderServiceUseCase;
         }
 
-        public async Task<ResponseProviderServiceDto> CreateProviderServiceAsync(DTOs.ProviderServices.PostProviderServiceDto dto)
+        public async Task<ResponseProviderServiceDto> CreateProviderServiceAsync(PostProviderServiceDto dto)
         {
             var data = await _createProviderServicesUseCase.ExecuteAsync(dto);
             return ResponseProviderServiceDto.FromEntity(data);

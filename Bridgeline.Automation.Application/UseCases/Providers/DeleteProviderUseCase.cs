@@ -13,6 +13,7 @@ namespace Bridgeline.Automation.Application.UseCases.Providers
 
         public async Task<bool> ExecuteAsync(Guid id)
         {
+
             return await _providerRepository.Delete(id);
         }
     }

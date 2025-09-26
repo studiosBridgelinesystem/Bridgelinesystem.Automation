@@ -15,8 +15,8 @@ namespace Bridgeline.Automation.Application.DTOs.CompanyIntegrations
         [StringLength(150)]
         public string Credentials { get; set; }
         public Dictionary<string, string> Configuration { get; set; }
-        public Guid? ProviderServiceId { get; set; }
+        public Guid ProviderServiceId { get; set; }
         public DateTime LastSyncAt { get; set; }
-        public Guid? StatusId { get; set; }
+        public Guid StatusId { get; set; }
     }
 }

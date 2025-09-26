@@ -37,12 +37,12 @@ namespace Bridgeline.Automation.Api.Controllers
             }
             catch (ConflictException ex)
             {
-                _logger.LogError(ex, "Conflict in StatusController Post method");
+                _logger.LogError(ex, "Conflict in TypeAutomationController Post method");
                 return Conflict(ex.Message);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error in StatusController Post method");
+                _logger.LogError(ex, "Error in TypeAutomationController Post method");
                 return StatusCode(500, "Internal server error");
             }
         }

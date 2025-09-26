@@ -9,6 +9,10 @@ namespace Bridgeline.Automation.Application.UseCases.CompanyIntegrations
     public class GetCompanyIntegrationUseCase
     {
         private readonly ICompanyIntegrationRepository _companyIntegrationRepository;
+        public GetCompanyIntegrationUseCase (ICompanyIntegrationRepository companyIntegrationRepository)
+        {
+            _companyIntegrationRepository = companyIntegrationRepository;
+        }
 
         public async Task<CompanyIntegration> ExecuteAsync(Guid id)
         {

@@ -22,7 +22,6 @@ namespace Bridgeline.Automation.Application.UseCases.ProviderServices
 
             existingProviderService.Name = providerService.Name ?? existingProviderService.Name;
             existingProviderService.RequiredCredentials = providerService.RequiredCredentials ?? existingProviderService.RequiredCredentials;
-            existingProviderService.IsActive = existingProviderService.IsActive;
             existingProviderService.UpdatedAt = DateTime.UtcNow;
 
             return await _providerServiceRepository.Update(existingProviderService);

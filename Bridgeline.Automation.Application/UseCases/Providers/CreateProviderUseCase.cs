@@ -1,4 +1,5 @@
 ﻿using Bridgeline.Automation.Application.DTOs.Providers;
+using Bridgeline.Automation.Application.Exceptions;
 using Bridgeline.Automation.Domain.entities;
 using Bridgeline.Automation.Domain.Interfaces.Repositories;
 
@@ -21,7 +22,7 @@ namespace Bridgeline.Automation.Application.UseCases.Providers
 
             if(existingProvider !=null)
             {
-                throw new Exception("Provider with the same name already exists.");
+                throw new ConflictException("Provider with the same name already exists.");
             }
             var provider = new Provider
             {

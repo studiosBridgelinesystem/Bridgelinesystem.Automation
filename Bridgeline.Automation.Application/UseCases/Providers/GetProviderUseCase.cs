@@ -7,7 +7,12 @@ namespace Bridgeline.Automation.Application.UseCases.Providers
     {
         private readonly IProviderRepository _providerRepository;
 
-        public async Task<Provider> ExecuteAsync( Guid Id) {
+        public GetProviderUseCase(IProviderRepository providerRepository)
+        {
+            _providerRepository = providerRepository;
+        }
+
+        public async Task<Provider> ExecuteAsync(Guid Id) {
         return await _providerRepository.GetById(Id);
         }
     }

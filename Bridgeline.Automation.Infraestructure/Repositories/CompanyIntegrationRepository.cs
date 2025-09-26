@@ -36,6 +36,7 @@ namespace Bridgeline.Automation.Infraestructure.Repositories
         {
             return await _context.CompanyIntegrations
                 .Where(c => c.IsActive)
+                .Include(c => c.ProviderService)
                 .AsNoTracking()
                 .ToListAsync();
         }
@@ -44,7 +45,8 @@ namespace Bridgeline.Automation.Infraestructure.Repositories
         {
             return await _context.CompanyIntegrations
                 .AsNoTracking()
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .Include(c => c.ProviderService)
+                .FirstOrDefaultAsync(x => x.Id == id && x.IsActive);
         }
 
         public async Task<bool> Delete(Guid id)

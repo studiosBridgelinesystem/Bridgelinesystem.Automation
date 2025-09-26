@@ -36,6 +36,7 @@ namespace Bridgeline.Automation.Infraestructure.Repositories
         public async Task<IEnumerable<Provider>> GetAll ()
         {
             return await _context.Providers
+                .Where(x => x.IsActive)
                 .AsNoTracking()
                 .ToListAsync();
         }
@@ -55,7 +56,9 @@ namespace Bridgeline.Automation.Infraestructure.Repositories
             {
                 return false;
             }
-            _context.Providers.Remove(provider);
+            provider.IsActive = false;
+
+            _context.Providers.Update(provider);
             await _context.SaveChangesAsync();
             return true;
         }
